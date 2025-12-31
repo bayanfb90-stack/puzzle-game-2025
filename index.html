@@ -10,60 +10,162 @@ body{
   font-family: Arial, sans-serif;
   background:#f5f7fa;
   text-align:center;
+  margin:0;
+  padding:0;
 }
-h1{color:#0b7d6e;}
-#grid{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:6px;
-  max-width:360px;
+
+h1{
+  color:#0b7d6e;
+  margin:15px 0 5px;
+}
+
+p{
+  color:#555;
+  font-size:14px;
+}
+
+#puzzle-wrapper{
+  width:360px;
   margin:20px auto;
+  position:relative;
 }
+
+#puzzle{
+  display:grid;
+  grid-template-columns:repeat(20, 1fr);
+  grid-template-rows:repeat(15, 1fr);
+  gap:1px;
+  background:url("logo.png") no-repeat center/contain;
+}
+
 .tile{
   background:#0b7d6e;
-  color:#fff;
+  cursor:pointer;
   aspect-ratio:1/1;
-  display:flex;
+}
+
+.tile.revealed{
+  background:transparent;
+}
+
+#modal{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  display:none;
   align-items:center;
   justify-content:center;
-  font-size:12px;
+}
+
+#modal-content{
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  width:85%;
+  max-width:300px;
+  text-align:center;
+}
+
+#modal-content p{
+  font-size:15px;
+  margin-bottom:15px;
+}
+
+button{
+  background:#0b7d6e;
+  color:#fff;
+  border:none;
+  padding:8px 16px;
   border-radius:6px;
   cursor:pointer;
 }
-.revealed{
-  background:#fff;
+
+#footer{
+  margin-top:20px;
+  font-weight:bold;
   color:#0b7d6e;
-  border:2px solid #0b7d6e;
 }
 </style>
 </head>
 
 <body>
-<h1>الصورة ما تكتمل بدونك</h1>
-<p>اضغط على القطع واكتشف قيم الجمعية</p>
 
-<div id="grid"></div>
+<h1>الصورة ما تكتمل بدونك</h1>
+<p>كل قطعة تبرز قيمة من قيم إرادة</p>
+
+<div id="puzzle-wrapper">
+  <div id="puzzle"></div>
+</div>
+
+<div id="footer"></div>
+
+<div id="modal">
+  <div id="modal-content">
+    <p id="modal-text"></p>
+    <button onclick="closeModal()">متابعة</button>
+  </div>
+</div>
 
 <script>
-const values = [
-  "الاحترام","الشفافية","التمكين","التكامل",
-  "الابتكار","المسؤولية","العمل الجماعي",
-  "رسالتنا","رؤيتنا","أهدافنا",
-  "تعرف على قسم آخر","كلنا فريق واحد"
+const contents = [
+  "الرؤية: الريادة في رعاية وتأهيل ذوي الاحتياجات الذهنية الخاصة",
+  "الرسالة: تعزيز جودة الحياة لذوي الاحتياجات الخاصة",
+  "الشفافية","التميّز","الالتزام","الأمل",
+  "المصداقية","الثقة","التخصصية","التمكين",
+  "تعزيز الشراكات",
+  "نشر الوعي بالإعاقة",
+  "تمكين الأسر",
+  "تدريب الكوادر",
+  "دعم البحوث",
+  "الإدماج المجتمعي",
+  "رفع جودة الخدمات"
 ];
 
-const grid = document.getElementById("grid");
+const puzzle = document.getElementById("puzzle");
+const modal = document.getElementById("modal");
+const modalText = document.getElementById("modal-text");
+const footer = document.getElementById("footer");
 
-for(let i=0;i<36;i++){
+let revealedCount = 0;
+
+for(let i=0;i<300;i++){
   const tile = document.createElement("div");
-  tile.className="tile";
-  tile.textContent="؟";
-  tile.onclick=()=>{
+  tile.className = "tile";
+
+  tile.onclick = () => {
+    if(tile.classList.contains("revealed")) return;
+
+    modalText.textContent = contents[i % contents.length];
+    modal.style.display = "flex";
+
     tile.classList.add("revealed");
-    tile.textContent = values[i % values.length];
+    revealedCount++;
+
+    if(revealedCount === 300){
+      footer.textContent = "الصورة ما تكتمل بدونك 🤍";
+    }
   };
-  grid.appendChild(tile);
+
+  puzzle.appendChild(tile);
+}
+
+function closeModal(){
+  modal.style.display = "none";
 }
 </script>
+
 </body>
 </html>
+#grid {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 2px;
+  width: 90vw;
+  max-width: 600px;
+  margin: auto;
+  background-image: url("PASTE_IMAGE_HERE");
+  background-size: cover;
+  background-position: center;
+}
